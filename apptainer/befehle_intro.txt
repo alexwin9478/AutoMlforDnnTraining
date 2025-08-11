@@ -1,0 +1,48 @@
+sudo apptainer build --sandbox --nvccli /tf_latest_gpu docker://tensorflow/tensorflow:latest-gpu
+sudo apptainer shell --writable tf_dir
+sudo apptainer build winkler_apptainer.sif /tf_dir
+sudo apptainer exec --nv winkler_apptainer.sif bash
+sudo apptainer run --nv winkler_apptainer.sif 
+
+
+Docker to Apptainer:
+pull dockerfiles from lambda stack (https://github.com/lambdal/lambda-stack-dockerfiles/)
+manipulate with custom libs as in the DOCKERFILE provided by Alex (see line: XYZ)
+
+sudo docker build -t lambda-stack:22.04 --build-arg UBUNTU_VERSION=22.04 .
+(it pulls all information from the dockerfile which has to be in the directory)
+
+sudo docker image ls 
+[sudo] password for winkler_a: 
+REPOSITORY     TAG       IMAGE ID       CREATED          SIZE
+lambda-stack   22.04     f3aa59bc70f3   26 minutes ago   13.3GB
+(check that the build was complete and the image is mounted locally) 
+
+sudo docker run --rm -ti lambda-stack-aw:22.04 /usr/bin/bash
+sudo docker run --rm -ti lambda-stack-aw:22.04 /usr/bin/bash
+sudo docker run --gpus 1 --rm lambda-stack:22.04 /usr/bin/python3 -c 'import torch; sz=10000; torch.mm(torch.randn(sz, sz).cuda(), torch.randn(sz, sz).cuda())' #pytorch test
+sudo docker run --gpus 1 --rm lambda-stack:22.04 /usr/bin/python3 -c 'import tensorflow as tf; print("Num GPUs Available: ", len(tf.config.list_physical_devices('GPU')))' #tensorflow test
+(test docker)
+
+sudo docker save -o /home/SharedFolder/lambda-stack-2204-aw.tar lambda-stack:22.04
+(save docker to directory / tar)
+
+sudo gzip /home/SharedFolder/lambda-stack-2204-aw.tar /home/SharedFolder/lambda-stack-2204-aw.tar.gz
+(compress / zip files for later storage or move to other systems)
+
+sudo apptainer build --nv lambda-stack-2204-aw.sif docker-daemon://lambda-stack:22.04
+(create apptainer, naming has to be as seen in the docker image ls output above)
+
+apptainer exec --nv nvidia-ubuntu-2204-optuna.sif python3 "import os" | "import numpy as np" | "import pandas as pd" | "import psutil" | "import tensorflow as tf" | "import optuna" | "import random" | "import time" | "import datetime" | "import json" | "import gc" | "import ast"
+apptainer exec --nv nvidia-ubuntu-2204-optuna.sif nvcc --version
+apptainer exec --nv nvidia-ubuntu-2204-optuna.sif nvidia-smi
+apptainer exec --nv nvidia-ubuntu-2204-optuna.sif "import tensorflow as tf" | "print("Num GPUs Available: ", len(tf.config.list_physical_devices('GPU')))"
+(test apptainer)
+
+
+Pipeline
+sudo docker build -t lambda-stack-aw:22.04 --build-arg UBUNTU_VERSION=22.04 . ; sudo apptainer build --force --nv lambda-stack-2204-aw.sif docker-daemon://lambda-stack-aw:22.04 ; sudo apptainer run --nv lambda-stack-2204-aw.sif
+
+Copy to cluster
+pscp lambda_stack_2204_aptdef.sif TIMID@login23-g-1.hpc.itc.rwth-aachen.de:/rwthfs/rz/cluster/home/TIMID/AutoML/
+pscp lambda-stack-2204-aw.sif TIMID@login23-g-1.hpc.itc.rwth-aachen.de:/rwthfs/rz/cluster/home/TIMID/AutoML/

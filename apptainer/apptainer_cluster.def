@@ -1,0 +1,27 @@
+Bootstrap: docker
+From: ubuntu:22.04
+  
+%post
+    chmod 777 /tmp        
+    DEBIAN_FRONTEND=noninteractive apt-get update -y && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y && \
+    DEBIAN_FRONTEND=noninteractive apt-get upgrade -y && \
+    apt-get install -y sudo && \
+	apt-get install -y wget && \
+	apt-get install -y pip && \
+	DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends tzdata && \
+	echo 'keyboard-configuration keyboard-configuration/layout select "us"' | sudo debconf-set-selections && \
+    echo 'keyboard-configuration keyboard-configuration/variant select "English (US)"' | sudo debconf-set-selections && \
+    echo 'cudnn cudnn/license_preseed select ACCEPT' | sudo debconf-set-selections && \
+	DEBIAN_FRONTEND=noninteractive wget -nv -O- https://lambdalabs.com/install-lambda-stack.sh | DEBIAN_FRONTEND=noninteractive sh -
+	pip install numpy==1.26.4 pyyaml && \
+    pip install pandas && \
+	pip install optuna && \
+	pip install optuna-integration[keras] && \
+	pip install matplotlib && \
+    pip install psutil && \
+	pip install keras-flops --quiet
+	
+%runscript
+    echo "Welcome to Alex' container"
+    exec /bin/sh
