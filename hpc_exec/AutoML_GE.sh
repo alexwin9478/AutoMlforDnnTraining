@@ -28,7 +28,7 @@
 # Run the Python code inside the Apptainer container
 echo "starting first srun"
 #srun --wait=0 nsys profile --gpu-metrics-device=all apptainer exec --bind $EBROOTCUDA --nv stecher_apptainer.sif python ClusterScript_AutoML_GE_load_copy.py #nsys=profiling
-srun --wait=0 apptainer exec /rwthfs/rz/cluster/work/TIMID/AutoML/apptainer/lambda_stack_2204_aptdef.sif python3 ClusterScript_AutoML_GE.py
+srun --wait=0 apptainer exec /rwthfs/rz/cluster/work/TIMID/AutoML/apptainer/lambda_stack_2204_aptdef.sif python3 execute_study_GE.py
 #--nv 
 
 # clean up dirs due to space reasons
@@ -37,7 +37,7 @@ rm -rf /rwthfs/rz/cluster/home/TIMID/AutoML/experiment_logs/log_dir_BO_GE
 
 echo "starting second srun"
 sleep 15
-srun --wait=0 apptainer exec /rwthfs/rz/cluster/work/TIMID/AutoML/apptainer/lambda_stack_2204_aptdef.sif python3 ClusterScript_AutoML_GE.py
+srun --wait=0 apptainer exec /rwthfs/rz/cluster/work/TIMID/AutoML/apptainer/lambda_stack_2204_aptdef.sif python3 execute_study_GE.py
 
 # clean up dirs due to space reasons
 rm -rf /rwthfs/rz/cluster/home/TIMID/AutoML/experiment_logs/model_dir_BO_GE
@@ -45,7 +45,7 @@ rm -rf /rwthfs/rz/cluster/home/TIMID/AutoML/experiment_logs/log_dir_BO_GE
 
 echo "starting third srun"
 sleep 15
-srun --wait=0 apptainer exec /rwthfs/rz/cluster/work/TIMID/AutoML/apptainer/lambda_stack_2204_aptdef.sif python3 ClusterScript_AutoML_GE.py
+srun --wait=0 apptainer exec /rwthfs/rz/cluster/work/TIMID/AutoML/apptainer/lambda_stack_2204_aptdef.sif python3 execute_study_GE.py
 
 # clean up dirs due to space reasons
 rm -rf /rwthfs/rz/cluster/home/TIMID/AutoML/experiment_logs/model_dir_BO_GE
@@ -53,7 +53,7 @@ rm -rf /rwthfs/rz/cluster/home/TIMID/AutoML/experiment_logs/log_dir_BO_GE
 
 # echo "starting fourth srun"
 # sleep 15
-# srun --wait=0 apptainer exec /rwthfs/rz/cluster/work/TIMID/AutoML/apptainer/lambda_stack_2204_aptdef.sif python3 ClusterScript_AutoML_GE.py
+# srun --wait=0 apptainer exec /rwthfs/rz/cluster/work/TIMID/AutoML/apptainer/lambda_stack_2204_aptdef.sif python3 execute_study_GE.py
 
 # # clean up dirs due to space reasons
 # rm -rf /rwthfs/rz/cluster/home/TIMID/AutoML/experiment_logs/model_dir_BO_GE

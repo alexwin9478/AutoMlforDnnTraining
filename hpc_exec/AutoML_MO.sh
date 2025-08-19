@@ -21,7 +21,7 @@
 
 ##sacct --format="JobID,JobName%30" #display extended job name
 ## run this from commandline to create the study! needs to be done beforehand!
-#apptainer exec --nv stecher_apptainer.sif python create_study_learnables.py  
+#apptainer exec --nv lambda_stack_2204_aptdef.sif python create_study_MO.py  
 
 ## uncomment for gpu usage
 #module load CUDA/12.3
@@ -29,7 +29,7 @@
 
 # Run the Python code inside the Apptainer container
 echo "starting first srun"
-srun --wait=0 apptainer exec --nv /rwthfs/rz/cluster/work/TIMID/AutoML/apptainer/lambda_stack_2204_aptdef.sif python3 ClusterScript_AutoML_Learnables.py
+srun --wait=0 apptainer exec --nv /rwthfs/rz/cluster/work/TIMID/AutoML/apptainer/lambda_stack_2204_aptdef.sif python3 execute_study_MO.py
 
 
 # clean up dirs due to space reasons
@@ -38,7 +38,7 @@ rm -rf /rwthfs/rz/cluster/home/TIMID/AutoML/experiment_logs/log_dir_BO_Learn
 
 echo "starting second srun"
 sleep 15
-srun --wait=0 apptainer exec --nv /rwthfs/rz/cluster/work/TIMID/AutoML/apptainer/lambda_stack_2204_aptdef.sif python3 ClusterScript_AutoML_Learnables.py
+srun --wait=0 apptainer exec --nv /rwthfs/rz/cluster/work/TIMID/AutoML/apptainer/lambda_stack_2204_aptdef.sif python3 execute_study_MO.py
 
 # clean up dirs due to space reasons
 rm -rf /rwthfs/rz/cluster/home/TIMID/AutoML/experiment_logs/model_dir_BO_Learn
@@ -46,7 +46,7 @@ rm -rf /rwthfs/rz/cluster/home/TIMID/AutoML/experiment_logs/log_dir_BO_Learn
 
 # sleep 15
 # echo "starting third srun"
-#srun --wait=0 apptainer exec --nv /rwthfs/rz/cluster/work/TIMID/AutoML/apptainer/lambda_stack_2204_aptdef.sif python3 ClusterScript_AutoML_Learnables.py
+#srun --wait=0 apptainer exec --nv /rwthfs/rz/cluster/work/TIMID/AutoML/apptainer/lambda_stack_2204_aptdef.sif python3 execute_study_MO.py
 # echo "done."
 
 # # clean up dirs due to space reasons
