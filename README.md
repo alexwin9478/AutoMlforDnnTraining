@@ -1,6 +1,6 @@
 # 🤖 AutoML for LSTM-Based DNNs with Optuna on RWTH HPC
 
-[![DOI](https://zenodo.org/badge/1036036262.svg)](https://doi.org/10.5281/zenodo.16902579)
+[![DOI](https://zenodo.org/badge/1036036262.svg)](https://doi.org/10.5281/zenodo.16903152)
 
 This repository contains Python code and documentation for an **Automated Machine Learning (AutoML)** workflow using the open-source framework [Optuna](https://optuna.org/).  
 The AutoML studies focus on:  
